@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.hangzhou.liuxx.superworld.dao.EnumDataMapper">
+
+    <resultMap id="baseResultMap" type="cn.hangzhou.liuxx.superworld.bean.entity.EnumDataEntity">
+        <id property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+    </resultMap>
+
+    <sql id="allColumns">
+        id, type, name, code
+    </sql>
+
+    <insert id="insertEnumData">
+        insert into enum_data (id, type, name, code) values (#{id}, #{type}, #{name}, #{code})
+    </insert>
+
+    <update id="updateById">
+        update enum_data set type = #{type}, name = #{name}, code = #{code} where id = #{id}
+    </update>
+    <delete id="deleteById">
+        delete from enum_data where id = #{id}
+    </delete>
+
+    <select id="listAllType" resultType="java.lang.String">
+        select distinct type from enum_data
+    </select>
+
+    <select id="listDataByType" resultType="cn.hangzhou.liuxx.superworld.bean.entity.EnumDataEntity">
+        select <include refid="allColumns"/>
+        from enum_data
+        <where>
+            <if test="type!=null and type!=''">
+                type = #{type}
+            </if>
+        </where>
+    </select>
+</mapper>
