@@ -1,0 +1,46 @@
+server:
+  port: 10147
+  servlet:
+    context-path: /super/hero
+
+rdb:
+  type: mysql
+# 数据库配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://10.1.56.232:3306/super_world?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: dbuser
+    password: DBuser@123_!@#
+#    driver-class-name: dm.jdbc.driver.DmDriver
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    url: jdbc:dm://DM_SERVER/super_world?DM_SERVER=(10.249.1.5:5236,10.249.7.33:5236)&comOracle=true&databaseProductName=Oracle&compatibleMode=oracle&loginMode=1&localTimezone=480&switchTimes=2000&switchInterval=10
+#    username: super_world
+#    password: Dmdm2021#)*^
+    druid:
+      initial-size: 10
+      min-idle: 10
+      max-active: 30
+      max-wait: 10000
+      time-between-eviction-runs-millis: 600000
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 1 from DUAL
+      test-while-idle: true
+      test-on-borrow: true
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  flyway:
+    enabled: true
+    table: flyway_schema_history
+    locations: classpath:db/migration/${rdb.type:mysql}
+
+dubbo:
+  application:
+    name: service_provider
+  registry:
+    address: zookeeper://10.249.5.121:2181
